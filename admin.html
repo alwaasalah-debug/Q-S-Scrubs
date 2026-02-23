@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم Q&S Scrubs</title>
+
+    <!-- Google Fonts: Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="admin-body">
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="admin-login-screen">
+        <div class="login-card">
+            <h2>Q&S Scrubs Admin</h2>
+            <p>تسجيل الدخول للوحة التحكم</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="admin-email" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+            </form>
+            <p id="login-error" class="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="dashboard-screen" class="admin-dashboard-screen hidden">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>Q&S Scrubs</h2>
+                <span>لوحة التحكم</span>
+            </div>
+            <ul class="admin-nav">
+                <li class="active" data-target="manage-products"><i class="fas fa-box"></i> إدارة المنتجات</li>
+                <li data-target="manage-orders"><i class="fas fa-shopping-cart"></i> إدارة الطلبات</li>
+                <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</li>
+            </ul>
+        </aside>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <!-- Manage Products Section -->
+            <section id="manage-products" class="admin-section active">
+                <div class="section-header">
+                    <h2>إدارة المنتجات</h2>
+                    <button id="add-product-btn" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة منتج
+                        جديد</button>
+                </div>
+
+                <div class="card table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>صورة</th>
+                                <th>الاسم</th>
+                                <th>السعر</th>
+                                <th>القسم</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-tbody">
+                            <!-- Products injected by JS -->
+                            <tr>
+                                <td colspan="5" style="text-align:center;">جاري التحميل...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Manage Orders Section -->
+            <section id="manage-orders" class="admin-section">
+                <div class="section-header">
+                    <h2>إدارة الطلبات</h2>
+                </div>
+
+                <div class="card table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>التاريخ</th>
+                                <th>العميل</th>
+                                <th>الإجمالي</th>
+                                <th>الحالة</th>
+                                <th>تفاصيل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- Orders injected by JS -->
+                            <tr>
+                                <td colspan="6" style="text-align:center;">جاري التحميل...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD/EDIT PRODUCT -->
+    <div class="admin-modal" id="product-modal">
+        <div class="modal-content">
+            <h3 id="modal-title">إضافة منتج جديد</h3>
+            <button class="close-modal-btn" onclick="closeModal('product-modal')"><i class="fas fa-times"></i></button>
+
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>اسم المنتج *</label>
+                        <input type="text" id="p-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الرابط (Slug/Label)</label>
+                        <input type="text" id="p-label">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>السعر (ج.م) *</label>
+                        <input type="number" id="p-price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>السعر القديم (ج.م) (اختياري للعروض)</label>
+                        <input type="number" id="p-old-price">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>القسم *</label>
+                    <input type="text" id="p-category" required placeholder="مثال: رجالي، حريمي، أطفال...">
+                </div>
+
+                <div class="form-group">
+                    <label>رابط الصورة الرئيسية *</label>
+                    <input type="url" id="p-image" required placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label>المقاسات (مفصولة بفاصلة)</label>
+                    <input type="text" id="p-sizes" placeholder="S, M, L, XL">
+                </div>
+
+                <div class="form-group">
+                    <label>الوصف</label>
+                    <textarea id="p-description" rows="4"></textarea>
+                </div>
+
+                <div style="text-align: left; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">حفظ المنتج</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ORDER DETAILS -->
+    <div class="admin-modal" id="order-modal">
+        <div class="modal-content">
+            <h3>تفاصيل الطلب <span id="view-order-id" style="color:var(--clr-gold)"></span></h3>
+            <button class="close-modal-btn" onclick="closeModal('order-modal')"><i class="fas fa-times"></i></button>
+
+            <div id="order-details-content" style="margin-top:20px;">
+                <!-- Filled via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/supabase.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

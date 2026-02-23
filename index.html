@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&S Scrubs - متجر ملابس طبية عصري</title>
+
+    <!-- Google Fonts: Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Supabase Client (from CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <!-- Hamburger Menu Icon -->
+            <button class="menu-btn" id="menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Centered Logo -->
+            <a href="index.html" class="logo">
+                Q&S Scrubs
+            </a>
+
+            <!-- Right Icons (Search, Cart) -->
+            <div class="nav-icons">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar / Mobile Menu -->
+    <aside class="sidebar-menu" id="sidebar-menu">
+        <div class="sidebar-header">
+            <h3>القائمة</h3>
+            <button class="close-menu-btn" id="close-menu-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#products">كل المنتجات</a></li>
+            <li><a href="#men">رجالي</a></li>
+            <li><a href="#women">حريمي</a></li>
+        </ul>
+    </aside>
+    <!-- Overlay for Sidebar -->
+    <div class="overlay" id="menu-overlay"></div>
+
+    <!-- Mini Cart Popup -->
+    <div class="mini-cart" id="mini-cart">
+        <div class="mini-cart-header">
+            <h3>عربة التسوق</h3>
+            <button class="close-cart-btn" id="close-cart-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mini-cart-items" id="mini-cart-items">
+            <!-- Cart items will be loaded here via JS -->
+            <div class="empty-cart-msg">السلة فارغة حاليا</div>
+        </div>
+        <div class="mini-cart-footer">
+            <div class="cart-total">
+                <span>الإجمالي:</span>
+                <span id="cart-total-price">0 ج.م</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-outline" id="continue-shopping">استكمال التسوق</button>
+                <button class="btn btn-primary" id="checkout-btn">الذهاب للشراء</button>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="cart-overlay"></div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <button class="close-search-btn" id="close-search-btn"><i class="fas fa-times"></i></button>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+            <button class="search-submit"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Slider -->
+        <section id="home" class="hero-slider">
+            <div class="slider-container" id="slider-container">
+                <!-- Slide 1 -->
+                <div class="slide active" style="background-image: url('images/slide1.jpg');">
+                    <div class="slide-content">
+                        <h2>ملابس طبية بلمسة عصرية</h2>
+                        <p>أفضل خامات السكراب الطبي التي توفر لك الراحة والأناقة أثناء عملك.</p>
+                        <a href="#products" class="btn btn-primary">تسوق الآن</a>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide" style="background-image: url('images/slide2.jpg');">
+                    <div class="slide-content">
+                        <h2>تشكيلة حصرية من Q&S Scrubs</h2>
+                        <p>تصميمات فريدة تناسب جميع التخصصات الطبية.</p>
+                        <a href="#products" class="btn btn-primary">تصفح التشكيلة</a>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide" style="background-image: url('images/slide3.jpg');">
+                    <div class="slide-content">
+                        <h2>جودة لا مثيل لها</h2>
+                        <p>نستخدم أقمشة متطورة لتضمن لك الانتعاش طوال اليوم.</p>
+                        <a href="#products" class="btn btn-primary">اكتشف المزيد</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Slider Controls -->
+            <button class="slider-btn prev-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="slider-btn next-btn"><i class="fas fa-chevron-left"></i></button>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <div class="container">
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>شحن سريع</h4>
+                        <p>توصيل سريع لجميع المحافظات</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h4>الدفع عند الاستلام</h4>
+                        <p>ادفع براحة عند استلام طلبك</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h4>استبدال واسترجاع مرن</h4>
+                        <p>متاح خلال 14 يوم من الاستلام</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-headset"></i>
+                        <h4>دعم فني 24/7</h4>
+                        <p>خدمة عملاء جاهزة للرد على استفساراتك</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discount Banner Section -->
+        <section class="discount-banner">
+            <div class="floating-circles">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <div class="banner-content">
+                <h2>عروض Q&S Scrubs الحصرية</h2>
+                <p>خصومات تصل إلى 30% على تشكيلة مختارة من السكراب الطبي.</p>
+                <a href="#products" class="btn btn-primary pulse-btn">اكتشف العروض</a>
+            </div>
+        </section>
+
+        <!-- Product Grid Section -->
+        <section id="products" class="products-section">
+            <div class="container">
+                <h2 class="section-title">أحدث المنتجات</h2>
+
+                <!-- Filters -->
+                <div class="product-filters" id="product-filters">
+                    <button class="filter-btn active" data-filter="all">الكل</button>
+                    <!-- Category buttons will be generated dynamically from database -->
+                    <button class="filter-btn" data-filter="offers">عروض</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be dynamically injected here by JS -->
+                    <div class="loading-spinner">جارِ تحميل المنتجات...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h2>Q&S Scrubs</h2>
+                <p>متجرك الأول للملابس الطبية العصرية والراقية.</p>
+            </div>
+            <div class="footer-links">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#">من نحن</a></li>
+                    <li><a href="#">تواصل معنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>تابعنا</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Q&S Scrubs. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/YOURPHONE" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
