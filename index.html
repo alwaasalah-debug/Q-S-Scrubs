@@ -1,203 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QS Scrubs | متجر ملابس عصري</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/whatsapp.css">
-</head>
-
-<body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="container">
-
-      <!-- 1. Cart (Left) -->
-      <!-- 1. Icons (Left) -->
-      <div class="nav-icons">
-
-
-        <!-- Cart Icon -->
-        <div class="cart-wrapper" style="position: relative;">
-          <a href="#" class="cart-icon icon-btn" title="عربة التسوق" onclick="toggleMiniCart(event)">
-            <img src="images/cart.png" alt="عربة التسوق" width="26" height="26">
-            <span class="cart-count">0</span>
-          </a>
-
-          <!-- Mini Cart Popup -->
-          <div class="mini-cart-popup" id="miniCartPopup">
-            <div class="mini-cart-header">
-              <h3>سلة المشتريات</h3>
-              <button class="close-cart-btn" onclick="toggleMiniCart(event)">&times;</button>
-            </div>
-            <div class="mini-cart-items" id="miniCartItems">
-              <!-- Items will be injected here -->
-            </div>
-            <div class="mini-cart-footer">
-              <div class="cart-total">
-                <span>المجموع:</span>
-                <span id="miniCartTotal">0 ج.م</span>
-              </div>
-              <p class="shipping-note">(+ مصاريف الشحن)</p>
-              <div class="mini-cart-actions">
-                <button class="btn btn-outline btn-block" onclick="continueShopping(event)">استكمال التسوق</button>
-                <a href="cart.html" class="btn btn-block">الذهاب للشراء</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2. Logo (Center - handled by CSS absolute) -->
-      <!--<a href="index.html" class="logo">3lisl7</a>-->
-      <!-- Logo (center) -->
-      <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="3lisl7" style="max-height: 100px;">
-      </a>
-
-      <!-- Right Side Icons Container -->
-      <div class="nav-right-icons">
-        <!-- Hamburger Menu -->
-        <div class="hamburger-menu" onclick="toggleMenu()">
-          <img src="images/nav-menu.png" alt="القائمة" width="26" height="26">
-        </div>
-      </div>
-
-      <!-- Side Drawer Links -->
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#" onclick="toggleMenu(); toggleSearch(); return false;">🔍 بحث</a></li>
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="#" onclick="handleNavClick('all'); return false;">كل المنتجات</a></li>
-        <li><a href="#" onclick="handleNavClick('men'); return false;">رجالي</a></li>
-        <li><a href="#" onclick="handleNavClick('women'); return false;">حريمي</a></li>
-      </ul>
-
-      <!-- Overlay -->
-      <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-
-    </div>
-  </nav>
-
-  <!-- Disclaimer Banner -->
-  <div class="disclaimer-banner">
-    <p>هذا الموقع هو نموذج تصميم تجريبى لعرض الأعمال فقط وإدارة المتجر المذكور غير مسؤوله عن أي طلبات او معاملات تتم من
-      خلاله</p>
-  </div>
-
-  <!-- Hero Section -->
-  <header class="hero-banner">
-    <img src="images/hero-bg.jpg" alt="QS Scrubs Banner" class="hero-banner-img">
-  </header>
-
-  <!-- Product Features Section -->
-  <section class="benefits-section">
-    <div class="container">
-      <div class="benefit-item">
-        <div class="benefit-icon">
-          <img src="images/premium-fabric.png" alt="خامة مستورده" width="32" height="32">
-        </div>
-        <div class="benefit-info">
-          <h3>خامة مستورده</h3>
-        </div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-icon">
-          <img src="images/lint-free.png" alt="ضد الوبره" width="32" height="32">
-        </div>
-        <div class="benefit-info">
-          <h3>ضد الوبره</h3>
-        </div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-icon">
-          <img src="images/no-wrinkles.png" alt="ضد التكسير" width="32" height="32">
-        </div>
-        <div class="benefit-info">
-          <h3>ضد التكسير</h3>
-        </div>
-      </div>
-      <div class="benefit-item">
-        <div class="benefit-icon">
-          <img src="images/anti-chlorine.png" alt="ضد الكلور" width="32" height="32">
-        </div>
-        <div class="benefit-info">
-          <h3>ضد الكلور</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categories Section -->
-  <section class="categories-section container">
-    <div id="static-categories-grid" class="categories-grid">
-      <!-- Categories will be injected here via JS -->
-    </div>
-  </section>
-
-  <!-- Products Section -->
-  <section id="products-section" class="container mb-2">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-      <div class="filters">
-        <!-- Filters can be added here or just rely on navbar -->
-      </div>
-    </div>
-
-    <div id="product-grid" class="grid">
-      <!-- Products will be loaded here -->
-    </div>
-  </section>
-
-  <!-- Newsletter Section -->
-  <section class="newsletter-section">
-    <div class="container">
-      <div class="newsletter-content">
-        <h2>انضم لقائمتنا البريدية</h2>
-        <p>احصل على أحدث العروض والخصومات مباشرة في بريدك</p>
-        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('شكراً لاشتراكك!');">
-          <input type="email" placeholder="أدخل بريدك الإلكتروني" required>
-          <button type="submit">اشتراك</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>جميع الحقوق محفوظة &copy; QS Scrubs</p>
-    </div>
-  </footer>
-
-  <!-- Instagram Button -->
-  <a href="https://www.instagram.com/q.s.scrubs.7?igsh=MTQydW1tOG5tZnY1eQ==" class="whatsapp-btn" target="_blank"
-    title="تابعنا على انستجرام">
-    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="#fff">
-      <path
-        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-    </svg>
-  </a>
-
-  <!-- Scripts -->
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase-config.js"></script>
-
-  <script src="assets/js/storage.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/index.js"></script>
-  <!-- Search Overlay -->
-  <div id="searchOverlay" class="search-overlay">
-    <div class="search-container">
-      <button class="close-search" onclick="toggleSearch()">&times;</button>
-      <input type="text" id="searchInput" placeholder="ابحث عن منتج..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-  </div>
-
-</body>
-
-</html>
