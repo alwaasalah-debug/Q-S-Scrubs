@@ -1,8 +1,4 @@
-create a file in github
-name:
-(.github/workflows/keep-alive.yml)
-content:
-(name: Supabase Keep Alive
+name: Supabase Keep Alive
 
 on:
   schedule:
